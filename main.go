@@ -10,7 +10,8 @@ const (
 	empty   = '.'
 )
 
-type Game struct {
+type Game
+ struct {
 	board    [rows][columns]rune
 	players  [2]rune
 	current  int
