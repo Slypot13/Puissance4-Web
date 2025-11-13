@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Puissance 4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>Puissance 4</h1>
+    <p class="subtitle">Projet web dynamique — jeu à deux joueurs</p>
+  </header>
+
+  <main class="container">
+    <section class="game-panel">
+      <div class="status-bar">
+        <span>Joueur actuel :</span>
+        <span id="current-player" class="badge badge-red">Rouge</span>
+      </div>
+
+      <!-- Plateau généré en JS -->
+      <div id="board" class="board"></div>
+
+      <div class="controls">
+        <button id="reset-btn">Recommencer la partie</button>
+      </div>
+
+      <p id="message" class="message"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Puissance 4 — Projet d’initiation au développement web</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>
