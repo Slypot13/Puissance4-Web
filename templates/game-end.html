@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Power'4 Web — Fin de partie</h1>
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/game/init">Nouvelle partie</a>
+        <a href="/game/scoreboard">Scoreboard</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Résultat de la partie</h2>
+
+    {{ if .Winner }}
+        <p>Victoire de <strong>{{ .Winner }}</strong> 🎉</p>
+    {{ else }}
+        <p><strong>Égalité !</strong></p>
+    {{ end }}
+
+    <p>Partie jouée le : {{ .Date }}</p>
+    <p>Nombre de tours : {{ .Turns }}</p>
+
+    <div class="cta">
+        <a href="/game/init" class="btn-primary">Rejouer</a>
+        <a href="/" class="btn-secondary">Retour à l’accueil</a>
+    </div>
+</main>
+
+</body>
+</html>
