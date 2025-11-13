@@ -1,15 +1,10 @@
-/* ===========================
-   RESET DE BASE
-=========================== */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ===========================
-   GLOBAL
-=========================== */
 :root {
   --bg-main: #020617;
   --bg-card: #0b1120;
@@ -32,9 +27,6 @@ body {
   color: var(--text-main);
 }
 
-/* ===========================
-   LAYOUT GENERAL
-=========================== */
 body {
   display: flex;
   flex-direction: column;
@@ -75,7 +67,6 @@ header nav a:hover {
   transform: translateY(-1px);
 }
 
-/* Page principale */
 main {
   flex: 1;
   max-width: 960px;
@@ -83,7 +74,6 @@ main {
   padding: 0 16px 32px;
 }
 
-/* Conteneur "carte" pour chaque page */
 .page-card {
   background: radial-gradient(circle at top left, #111827, #020617);
   border-radius: var(--radius-lg);
@@ -92,7 +82,6 @@ main {
   padding: 22px 22px 24px;
 }
 
-/* Titres & textes */
 h2 {
   font-size: 1.6rem;
   margin-bottom: 10px;
@@ -115,9 +104,6 @@ p.muted, .muted {
   font-size: 0.92rem;
 }
 
-/* ===========================
-   BOUTONS
-=========================== */
 .btn-primary {
   display: inline-block;
   background: linear-gradient(135deg, var(--accent), var(--accent-soft));
@@ -166,9 +152,6 @@ a.btn-secondary {
   text-decoration: none;
 }
 
-/* ===========================
-   LOGO
-=========================== */
 .logo {
   display: block;
   margin: 0 auto 18px;
@@ -178,9 +161,6 @@ a.btn-secondary {
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
 }
 
-/* ===========================
-   FORMULAIRES
-=========================== */
 form {
   margin-top: 10px;
 }
@@ -229,9 +209,6 @@ select:focus {
   background: #020617;
 }
 
-/* ===========================
-   PAGE D'ACCUEIL
-=========================== */
 .home-intro {
   margin-bottom: 16px;
 }
@@ -240,9 +217,6 @@ select:focus {
   margin-top: 18px;
 }
 
-/* ===========================
-   INFO JOUEURS / TOUR
-=========================== */
 .player-info {
   margin-top: 4px;
   margin-bottom: 10px;
@@ -278,9 +252,7 @@ select:focus {
   border: 1px solid rgba(250, 204, 21, 0.5);
 }
 
-/* ===========================
    GRILLE DU JEU (Puissance 4)
-=========================== */
 .game-grid {
   border-collapse: collapse;
   margin: 16px 0;
@@ -301,16 +273,15 @@ select:focus {
   border: 3px solid #020617;
   font-weight: bold;
   font-size: 1.2rem;
-  color: #0b1120;
+  color: #000000;
   box-shadow:
     inset 0 4px 8px rgba(255, 255, 255, 0.06),
     inset 0 -4px 8px rgba(0, 0, 0, 0.9);
-  background: radial-gradient(circle at 30% 30%, #020617, #020617);
+  background: radial-gradient(circle at 30% 30%, #ff0000, #ff0000);
 }
 
-/* 0 = vide */
 .cell-0 {
-  background: radial-gradient(circle at 30% 30%, #020617, #020617);
+  background: radial-gradient(circle at 30% 30%, #fbff00, #eeff00);
 }
 
 .cell-1 {
