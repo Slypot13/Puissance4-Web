@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>{{ .Title }}</title>
-  <link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+
 <header>
-  <h1>Power'4 Web — Erreur</h1>
-  <nav>
-    <a href="/">Retour à l’accueil</a>
-    <a href="/game/init">Nouvelle partie</a>
-  </nav>
+    <h1>Power'4 Web — Erreur</h1>
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/game/init">Nouvelle partie</a>
+    </nav>
 </header>
 
 <main>
-  <h2>Une erreur est survenue</h2>
-  <p>{{ .ErrorMessage }}</p>
 
-  <a class="btn-primary" href="/">Revenir à l’accueil</a>
+    <div class="page-card">
+        <h2>Une erreur est survenue</h2>
+
+        {{ if .ErrorCode }}
+            <p class="error-code">Code : {{ .ErrorCode }}</p>
+        {{ end }}
+
+        <p class="status-message status-error">
+            {{ if .ErrorMessage }}
+                {{ .ErrorMessage }}
+            {{ else }}
+                Une erreur inattendue s’est produite.
+            {{ end }}
+        </p>
+
+        <div style="margin-top: 16px;">
+            <a href="/" class="btn-secondary">Retour à l’accueil</a>
+            <a href="/game/init" class="btn-primary" style="margin-left: 8px;">Démarrer une partie</a>
+        </div>
+    </div>
+
 </main>
+
 </body>
 </html>

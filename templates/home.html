@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>{{ .Title }}</title>
-    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/static/style.css?v=1">
 </head>
 <body>
 
@@ -17,14 +17,44 @@
 </header>
 
 <main>
-    <h2>Bienvenue sur Power'4 Web !</h2>
+    <div class="page-card">
 
-    <p>
-        Ce site vous permet de jouer au Puissance 4 directement dans votre navigateur.<br>
-        Cliquez ci-dessous pour démarrer une nouvelle partie !
-    </p>
+        <img src="/static/logo.png" alt="Logo du site" class="logo">
 
-    <button class="btn-primary" onclick="location.href='/game/init'">Commencer une partie</button>
+        <div class="home-intro">
+            <h2>Bienvenue sur Power'4 Web 🎮</h2>
+            <p>
+                Jouez au Puissance 4 directement dans votre navigateur, à deux joueurs,
+                avec personnalisation des pseudos, couleurs de jetons et historique des parties.
+            </p>
+        </div>
+
+        <h3>Objectifs du projet</h3>
+        <p class="muted">
+            Ce projet a pour but de mettre en pratique :
+        </p>
+        <ul class="muted" style="margin-left: 18px; margin-bottom: 10px;">
+            <li>la gestion de routes web claires (/game/init, /game/play, /game/end…)</li>
+            <li>la séparation affichage / traitement des formulaires</li>
+            <li>la logique de jeu (Puissance 4) côté serveur</li>
+            <li>la gestion d’un scoreboard (historique des parties)</li>
+        </ul>
+
+        <h3>Règles du jeu</h3>
+        <p class="muted">
+            Les joueurs jouent à tour de rôle en choisissant une colonne. Le jeton tombe dans la
+            première case libre de cette colonne. Le premier qui aligne 4 jetons de sa couleur
+            (horizontalement, verticalement ou en diagonale) remporte la partie. Si la grille est
+            pleine sans alignement, la partie est déclarée nulle.
+        </p>
+
+        <div class="home-actions">
+            <button class="btn-primary" onclick="location.href='/game/init'">
+                Commencer une nouvelle partie
+            </button>
+        </div>
+
+    </div>
 </main>
 
 </body>

@@ -13,14 +13,11 @@
 :root {
   --bg-main: #020617;
   --bg-card: #0b1120;
-  --bg-card-soft: #020617;
   --border-soft: #1f2937;
   --text-main: #e5e7eb;
   --text-muted: #9ca3af;
   --accent: #3b82f6;
   --accent-soft: #1d4ed8;
-  --danger: #ef4444;
-  --warning: #eab308;
   --radius-lg: 16px;
   --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.6);
 }
@@ -164,7 +161,6 @@ p.muted, .muted {
   transform: translateY(-1px);
 }
 
-/* Pour les liens-boutons */
 a.btn-primary,
 a.btn-secondary {
   text-decoration: none;
@@ -317,19 +313,14 @@ select:focus {
   background: radial-gradient(circle at 30% 30%, #020617, #020617);
 }
 
-/* 1 = joueur 1 (rouge) */
 .cell-1 {
   background: radial-gradient(circle at 30% 30%, #fecaca, #ef4444);
 }
 
-/* 2 = joueur 2 (jaune) */
 .cell-2 {
   background: radial-gradient(circle at 30% 30%, #fef9c3, #eab308);
 }
 
-/* ===========================
-   SCOREBOARD
-=========================== */
 .scoreboard-table {
   width: 100%;
   border-collapse: collapse;
@@ -361,9 +352,6 @@ select:focus {
   background: rgba(15, 23, 42, 0.4);
 }
 
-/* ===========================
-   PAGE DE FIN / ERREUR
-=========================== */
 .status-message {
   font-size: 1.1rem;
   margin: 12px 0;
@@ -387,9 +375,6 @@ select:focus {
   margin-bottom: 8px;
 }
 
-/* ===========================
-   FOOTER (optionnel si tu en ajoutes un jour)
-=========================== */
 footer {
   padding: 10px 16px;
   text-align: center;

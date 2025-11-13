@@ -17,48 +17,54 @@
 </header>
 
 <main>
-    <h2>À vous de jouer !</h2>
 
-    <p>
-        Joueur 1 : <strong>{{ .CurrentGame.Player1.Name }}</strong>
-        ({{ .CurrentGame.Player1.Color }})<br>
-        Joueur 2 : <strong>{{ .CurrentGame.Player2.Name }}</strong>
-        ({{ .CurrentGame.Player2.Color }})
-    </p>
+    <div class="page-card">
+        <h2>À vous de jouer !</h2>
 
-    <p class="current-player">
-        Tour de :
-        {{ if eq .CurrentGame.CurrentPlayer 1 }}
-            <span>{{ .CurrentGame.Player1.Name }}</span>
-            <span class="badge-player badge-j1">Joueur 1</span>
-        {{ else }}
-            <span>{{ .CurrentGame.Player2.Name }}</span>
-            <span class="badge-player badge-j2">Joueur 2</span>
-        {{ end }}
-    </p>
+        <div class="player-info">
+            <p>
+                Joueur 1 : <strong>{{ .CurrentGame.Player1.Name }}</strong>
+                ({{ .CurrentGame.Player1.Color }})<br>
+                Joueur 2 : <strong>{{ .CurrentGame.Player2.Name }}</strong>
+                ({{ .CurrentGame.Player2.Color }})
+            </p>
+        </div>
 
-    <h3>Grille de jeu</h3>
-
-    <table class="game-grid">
-        {{ range $i, $row := .CurrentGame.Grid }}
-        <tr>
-            {{ range $j, $cell := $row }}
-            <td class="cell cell-{{$cell}}">
-                {{ if eq $cell 1 }}X{{ end }}
-                {{ if eq $cell 2 }}O{{ end }}
-            </td>
+        <p class="current-player">
+            Tour de :
+            {{ if eq .CurrentGame.CurrentPlayer 1 }}
+                <span>{{ .CurrentGame.Player1.Name }}</span>
+                <span class="badge-player badge-j1">Joueur 1</span>
+            {{ else }}
+                <span>{{ .CurrentGame.Player2.Name }}</span>
+                <span class="badge-player badge-j2">Joueur 2</span>
             {{ end }}
-        </tr>
-        {{ end }}
-    </table>
+        </p>
 
-    <h3>Choisissez une colonne :</h3>
+        <h3>Grille de jeu</h3>
 
-    <form action="/game/play/traitement" method="post">
-        <label for="column">Colonne (1-7) :</label>
-        <input type="number" name="column" id="column" min="1" max="7" required>
-        <button class="btn-primary" type="submit">Jouer</button>
-    </form>
+        <table class="game-grid">
+            {{ range $i, $row := .CurrentGame.Grid }}
+            <tr>
+                {{ range $j, $cell := $row }}
+                <td class="cell cell-{{$cell}}">
+                    {{ if eq $cell 1 }}X{{ end }}
+                    {{ if eq $cell 2 }}O{{ end }}
+                </td>
+                {{ end }}
+            </tr>
+            {{ end }}
+        </table>
+
+        <h3>Choisissez une colonne :</h3>
+
+        <form action="/game/play/traitement" method="post">
+            <label for="column">Colonne (1-7) :</label>
+            <input type="number" name="column" id="column" min="1" max="7" required>
+            <button class="btn-primary" type="submit">Jouer</button>
+        </form>
+    </div>
+
 </main>
 
 </body>
