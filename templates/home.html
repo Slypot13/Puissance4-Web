@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ .Title }}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <h1>Power'4 Web</h1>
+  <nav>
+    <a href="/">Accueil</a>
+    <a href="/game/init">Nouvelle partie</a>
+    <a href="/game/scoreboard">Scoreboard</a>
+  </nav>
+</header>
+
+<main>
+  <h2>Bienvenue sur Power'4 Web</h2>
+  <p>
+    Cette application permet de jouer au Puissance 4 à deux joueurs, directement depuis votre navigateur.
+  </p>
+
+  <h3>Objectifs du projet</h3>
+  <ul>
+    <li>Interface web simple, lisible et attrayante</li>
+    <li>Personnalisation des joueurs (pseudo, couleur)</li>
+    <li>Historique des parties avec scoreboard</li>
+  </ul>
+
+  <h3>Règles du jeu</h3>
+  <p>
+    Chaque joueur dépose un jeton dans une colonne de la grille. Le jeton tombe jusqu'à la première case libre.
+    Le premier joueur qui aligne quatre jetons de sa couleur (horizontal, vertical ou diagonal) gagne la partie.
+    Si la grille est pleine sans alignement, la partie est nulle.
+  </p>
+
+  <a class="btn-primary" href="/game/init">Commencer une partie</a>
+</main>
+</body>
+</html>
