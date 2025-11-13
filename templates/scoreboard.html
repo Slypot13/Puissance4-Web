@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Power'4 Web — Scoreboard</h1>
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/game/init">Nouvelle partie</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Historique des parties</h2>
+
+    {{ if not .Scoreboard }}
+        <p>Aucune partie enregistrée.</p>
+    {{ else }}
+        <table class="scoreboard-table">
+            <thead>
+                <tr>
+                    <th>Joueur 1</th>
+                    <th>Joueur 2</th>
+                    <th>Vainqueur</th>
+                    <th>Date</th>
+                    <th>Tours</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Scoreboard }}
+                <tr>
+                    <td>{{ .Player1 }}</td>
+                    <td>{{ .Player2 }}</td>
+                    <td>{{ .Winner }}</td>
+                    <td>{{ .Date }}</td>
+                    <td>{{ .Turns }}</td>
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    {{ end }}
+
+</main>
+
+</body>
+</html>
