@@ -26,13 +26,27 @@
         ({{ .CurrentGame.Player2.Color }})
     </p>
 
+    <p class="current-player">
+        Tour de :
+        {{ if eq .CurrentGame.CurrentPlayer 1 }}
+            <span>{{ .CurrentGame.Player1.Name }}</span>
+            <span class="badge-player badge-j1">Joueur 1</span>
+        {{ else }}
+            <span>{{ .CurrentGame.Player2.Name }}</span>
+            <span class="badge-player badge-j2">Joueur 2</span>
+        {{ end }}
+    </p>
+
     <h3>Grille de jeu</h3>
 
     <table class="game-grid">
         {{ range $i, $row := .CurrentGame.Grid }}
         <tr>
             {{ range $j, $cell := $row }}
-            <td class="cell cell-{{$cell}}"></td>
+            <td class="cell cell-{{$cell}}">
+                {{ if eq $cell 1 }}X{{ end }}
+                {{ if eq $cell 2 }}O{{ end }}
+            </td>
             {{ end }}
         </tr>
         {{ end }}
@@ -43,10 +57,8 @@
     <form action="/game/play/traitement" method="post">
         <label for="column">Colonne (1-7) :</label>
         <input type="number" name="column" id="column" min="1" max="7" required>
-
         <button class="btn-primary" type="submit">Jouer</button>
     </form>
-
 </main>
 
 </body>

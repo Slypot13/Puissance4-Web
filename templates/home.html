@@ -2,19 +2,30 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
-    <title>Accueil - Puissance 4 Web</title>
+    <title>{{ .Title }}</title>
     <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-    <header>
-        <h1>Puissance 4 Web</h1>
-        <img src="/static/logo/ChatGPT Image 23 oct. 2025, 09_42_33.png" alt="Logo" class="logo" />
-    </header>
 
-    <div class="container">
-        <h2>Bienvenue sur Power'4!</h2>
-        <p>Commencez une partie en cliquant sur "Jouer".</p>
-        <button onclick="location.href='/play'">Jouer</button>
-    </div>
+<header>
+    <h1>Power'4 Web</h1>
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/game/init">Nouvelle partie</a>
+        <a href="/game/scoreboard">Scoreboard</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Bienvenue sur Power'4 Web !</h2>
+
+    <p>
+        Ce site vous permet de jouer au Puissance 4 directement dans votre navigateur.<br>
+        Cliquez ci-dessous pour démarrer une nouvelle partie !
+    </p>
+
+    <button class="btn-primary" onclick="location.href='/game/init'">Commencer une partie</button>
+</main>
+
 </body>
 </html>
