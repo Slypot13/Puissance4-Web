@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/static/style.css?v=1">
+</head>
+<body>
+
+<header>
+    <h1>Power'4 Web — Initialisation</h1>
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/game/scoreboard">Scoreboard</a>
+    </nav>
+</header>
+
+<main>
+
+    <div class="page-card">
+        <h2>Paramètres de la partie</h2>
+        <p class="muted">Renseignez les informations des deux joueurs, puis lancez la partie.</p>
+
+        <form action="/game/init/traitement" method="post">
+
+            <!-- Joueur 1 -->
+            <fieldset>
+                <legend>Joueur 1</legend>
+
+                <label for="player1_name">Pseudo :</label>
+                <input type="text" id="player1_name" name="player1_name" required>
+
+                <label for="player1_color">Couleur du jeton :</label>
+                <select id="player1_color" name="player1_color" required>
+                    <option value="rouge">Rouge</option>
+                    <option value="jaune">Jaune</option>
+                </select>
+            </fieldset>
+
+            <!-- Joueur 2 -->
+            <fieldset>
+                <legend>Joueur 2</legend>
+
+                <label for="player2_name">Pseudo :</label>
+                <input type="text" id="player2_name" name="player2_name" required>
+
+                <label for="player2_color">Couleur du jeton :</label>
+                <select id="player2_color" name="player2_color" required>
+                    <option value="jaune">Jaune</option>
+                    <option value="rouge">Rouge</option>
+                </select>
+            </fieldset>
+
+            <button type="submit" class="btn-primary">Lancer la partie</button>
+
+        </form>
+    </div>
+
+</main>
+
+</body>
+</html>

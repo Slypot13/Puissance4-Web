@@ -2,19 +2,60 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
-    <title>Accueil - Puissance 4 Web</title>
-    <link rel="stylesheet" href="/static/style.css" />
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/static/style.css?v=1">
 </head>
 <body>
-    <header>
-        <h1>Puissance 4 Web</h1>
-        <img src="/static/logo/logo.png" alt="Logo" class="logo" />
-    </header>
 
-    <div class="container">
-        <h2>Bienvenue sur mon site local !</h2>
-        <p>Commencez une partie en cliquant sur "Jouer".</p>
-        <button onclick="location.href='/play'">Jouer</button>
+<header>
+    <h1>Power'4 Web</h1>
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/game/init">Nouvelle partie</a>
+        <a href="/game/scoreboard">Scoreboard</a>
+    </nav>
+</header>
+
+<main>
+    <div class="page-card">
+
+        <img src="/static/logo.png" alt="Logo du site" class="logo">
+
+        <div class="home-intro">
+            <h2>Bienvenue sur Power'4 Web 🎮</h2>
+            <p>
+                Jouez au Puissance 4 directement dans votre navigateur, à deux joueurs,
+                avec personnalisation des pseudos, couleurs de jetons et historique des parties.
+            </p>
+        </div>
+
+        <h3>Objectifs du projet</h3>
+        <p class="muted">
+            Ce projet a pour but de mettre en pratique :
+        </p>
+        <ul class="muted" style="margin-left: 18px; margin-bottom: 10px;">
+            <li>la gestion de routes web claires (/game/init, /game/play, /game/end…)</li>
+            <li>la séparation affichage / traitement des formulaires</li>
+            <li>la logique de jeu (Puissance 4) côté serveur</li>
+            <li>la gestion d’un scoreboard (historique des parties)</li>
+        </ul>
+
+        <h3>Règles du jeu</h3>
+        <p class="muted">
+            Les joueurs jouent à tour de rôle en choisissant une colonne. Le jeton tombe dans la
+            première case libre de cette colonne. Le premier qui aligne 4 jetons de sa couleur
+            (horizontalement, verticalement ou en diagonale) remporte la partie. Si la grille est
+            pleine sans alignement, la partie est déclarée nulle.
+        </p>
+
+        <div class="home-actions">
+            <button class="btn-primary" onclick="location.href='/game/init'">
+                Commencer une nouvelle partie
+            </button>
+        </div>
+
     </div>
+</main>
+
 </body>
 </html>
