@@ -1,8 +1,8 @@
+/* Réinitialisation de base */
 * {
-
   margin: 0;
-
   padding: 0;
+<<<<<<< HEAD
 
   box-sizing: border-box;
 }
@@ -32,9 +32,20 @@ body {
 body {
   display: flex;
   flex-direction: column;
+=======
 }
- 
+
+/* Corps de page */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #222;
+>>>>>>> a2698c843ddefe9853eb59f166b51923d8a59c29
+}
+
+/* En-tête */
 header {
+<<<<<<< HEAD
   background: rgba(15, 23, 42, 0.95);
   border-bottom: 1px solid var(--border-soft);
   padding: 14px 32px;
@@ -372,4 +383,134 @@ footer {
   color: var(--text-muted);
   border-top: 1px solid var(--border-soft);
   background: #020617;
+=======
+  background-color: #264653;
+  color: #fff;
+  padding: 10px;
+}
+
+header h1 {
+  font-size: 18px;
+}
+
+header nav a {
+  color: #f1faee;
+  text-decoration: none;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+/* Contenu principal */
+main {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 10px;
+}
+
+/* Cartes / boîtes */
+.page-card {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Titres */
+h2 {
+  margin-bottom: 10px;
+}
+
+h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+/* Paragraphes */
+p {
+  margin-bottom: 8px;
+}
+
+/* Boutons */
+.btn-primary, .btn-secondary {
+  padding: 5px 10px;
+  text-decoration: none;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #2a9d8f;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #e9ecef;
+  color: #222;
+}
+
+/* Formulaires */
+form {
+  margin-top: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+input, select {
+  width: 200px;
+  padding: 5px;
+  margin-bottom: 8px;
+  border: 1px solid #bbb;
+}
+
+/* Grille du jeu */
+.game-grid {
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.game-grid .cell {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #000;
+}
+
+/* Cellules du jeu */
+.cell-0 { background-color: #f1f1f1; }
+.cell-1 { background-color: #e63946; }
+.cell-2 { background-color: #ffbe0b; }
+
+/* Tableau des scores */
+.scoreboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.scoreboard-table th,
+.scoreboard-table td {
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+/* Messages */
+.status-message {
+  margin: 10px 0;
+}
+
+.status-win { color: #2a9d8f; }
+.status-draw { color: #444; }
+.status-error { color: #e63946; }
+
+/* Pied de page */
+footer {
+  font-size: 12px;
+  color: #777;
+  text-align: center;
+  padding: 8px;
+  border-top: 1px solid #ccc;
+  margin-top: 10px;
+>>>>>>> a2698c843ddefe9853eb59f166b51923d8a59c29
 }
