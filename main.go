@@ -11,36 +11,25 @@ import (
 	"time"
 )
 
-
 var templates = template.Must(template.ParseGlob("templates/*.html"))
 
 type Player struct {
-	Name  string
-	Color string
+	Name, Color string
 }
 
 type GameResult struct {
-	Player1 string
-	Player2 string
-	Winner  string
-	Date    time.Time
-	Turns   int
+	Player1, Player2, Winner string
+	Date                     time.Time
+	Turns                    int
 }
 
 type CurrentGame struct {
-	Player1       Player
-	Player2       Player
-	Started       time.Time
-	Turns         int
-	CurrentPlayer int       
-	Grid          [][]int   
+	Player1, Player2 Player
+	Started          time.Time
+	Turns            int
+	CurrentPlayer    int
+	Grid             [][]int
 }
-
-var (
-	currentGame *CurrentGame
-	scoreboard  []GameResult
-)
-
 
 type PageData struct {
 	Title        string
@@ -51,153 +40,152 @@ type PageData struct {
 	ErrorMessage string
 }
 
+var (
+	currentGame *CurrentGame
+	scoreboard  []GameResult
+)
 
 var nameRegex = regexp.MustCompile(`^[A-Za-z0-9_-]{3,20}$`)
 
-func normalizeName(s string) string {
-	return strings.TrimSpace(s)
+/* ---------- helpers ---------- */
+func render(w http.ResponseWriter, tpl string, data PageData) {
+	if err := templates.ExecuteTemplate(w, tpl, data); err != nil {
+		log.Println("template error:", err)
+		http.Error(w, "Erreur serveur", 500)
+	}
+}
+
+func redirectErr(w http.ResponseWriter, r *http.Request, code int, msg string) {
+	u := "/error?code=" + url.QueryEscape(strconv.Itoa(code)) + "&msg=" + url.QueryEscape(msg)
+	http.Redirect(w, r, u, http.StatusSeeOther)
+}
+
+func mustMethod(w http.ResponseWriter, r *http.Request, want string) bool {
+	if r.Method != want {
+		redirectErr(w, r, 405, "Méthode HTTP non autorisée")
+		return false
+	}
+	return true
 }
 
 func normalizeColor(s string) string {
-	s = strings.TrimSpace(strings.ToLower(s))
+	s = strings.ToLower(strings.TrimSpace(s))
 	if s == "rouge" || s == "jaune" {
 		return s
 	}
 	return ""
 }
 
-func renderTemplate(w http.ResponseWriter, name string, data PageData) {
-	err := templates.ExecuteTemplate(w, name, data)
-	if err != nil {
-		log.Println("Erreur template:", err)
-
-		w.WriteHeader(http.StatusInternalServerError)
-		_, _ = w.Write([]byte("Erreur interne du serveur."))
+func boardFull(g [][]int) bool {
+	for c := 0; c < 7; c++ {
+		if g[0][c] == 0 {
+			return false
+		}
 	}
+	return true
 }
 
-func redirectToError(w http.ResponseWriter, r *http.Request, code int, msg string) {
-	u := "/error?code=" + url.QueryEscape(strconv.Itoa(code)) +
-		"&msg=" + url.QueryEscape(msg)
-	http.Redirect(w, r, u, http.StatusSeeOther)
+func checkWin(grid [][]int, p int) bool {
+	for r := 0; r < 6; r++ {
+		for c := 0; c < 7; c++ {
+			if c+3 < 7 && grid[r][c] == p && grid[r][c+1] == p && grid[r][c+2] == p && grid[r][c+3] == p {
+				return true
+			}
+			if r+3 < 6 && grid[r][c] == p && grid[r+1][c] == p && grid[r+2][c] == p && grid[r+3][c] == p {
+				return true
+			}
+			if r+3 < 6 && c+3 < 7 && grid[r][c] == p && grid[r+1][c+1] == p && grid[r+2][c+2] == p && grid[r+3][c+3] == p {
+				return true
+			}
+			if r-3 >= 0 && c+3 < 7 && grid[r][c] == p && grid[r-1][c+1] == p && grid[r-2][c+2] == p && grid[r-3][c+3] == p {
+				return true
+			}
+		}
+	}
+	return false
 }
 
+/* ---------- handlers ---------- */
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-
-		redirectToError(w, r, 404, "Page introuvable.")
+		redirectErr(w, r, 404, "Page introuvable")
 		return
 	}
-
-	data := PageData{
-		Title: "Power'4 Web — Accueil",
-	}
-	renderTemplate(w, "home.html", data)
+	render(w, "home.html", PageData{Title: "Power'4 Web — Accueil"})
 }
 
 func gameInitHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		redirectToError(w, r, 405, "Méthode HTTP non autorisée.")
+	if !mustMethod(w, r, http.MethodGet) {
 		return
 	}
-
-	data := PageData{
-		Title: "Power'4 Web — Initialisation",
-	}
-	renderTemplate(w, "game_init.html", data)
+	render(w, "game_init.html", PageData{Title: "Power'4 Web — Initialisation"})
 }
 
 func gameInitTraitementHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		redirectToError(w, r, 405, "Méthode HTTP non autorisée.")
+	if !mustMethod(w, r, http.MethodPost) {
 		return
 	}
 
-	p1Name := normalizeName(r.FormValue("player1_name"))
-	p2Name := normalizeName(r.FormValue("player2_name"))
-	p1Color := normalizeColor(r.FormValue("player1_color"))
-	p2Color := normalizeColor(r.FormValue("player2_color"))
+	p1 := strings.TrimSpace(r.FormValue("player1_name"))
+	p2 := strings.TrimSpace(r.FormValue("player2_name"))
+	c1 := normalizeColor(r.FormValue("player1_color"))
+	c2 := normalizeColor(r.FormValue("player2_color"))
 
-	if !nameRegex.MatchString(p1Name) || !nameRegex.MatchString(p2Name) {
-		redirectToError(w, r, 400, "Les pseudos doivent contenir entre 3 et 20 caractères (lettres, chiffres, -, _).")
+	if !nameRegex.MatchString(p1) || !nameRegex.MatchString(p2) {
+		redirectErr(w, r, 400, "Pseudo invalide (3-20 caractères)")
+		return
+	}
+	if c1 == "" || c2 == "" || c1 == c2 {
+		redirectErr(w, r, 400, "Couleurs invalides ou identiques")
 		return
 	}
 
-	if p1Color == "" || p2Color == "" {
-		redirectToError(w, r, 400, "Couleur de jeton invalide.")
-		return
-	}
-	if p1Color == p2Color {
-		redirectToError(w, r, 400, "Les deux joueurs doivent avoir une couleur différente.")
-		return
+	g := make([][]int, 6)
+	for i := range g {
+		g[i] = make([]int, 7)
 	}
 
 	currentGame = &CurrentGame{
-		Player1: Player{
-			Name:  p1Name,
-			Color: p1Color,
-		},
-		Player2: Player{
-			Name:  p2Name,
-			Color: p2Color,
-		},
+		Player1:       Player{Name: p1, Color: c1},
+		Player2:       Player{Name: p2, Color: c2},
 		Started:       time.Now(),
 		Turns:         0,
 		CurrentPlayer: 1,
-		Grid:          make([][]int, 6),
-	}
-
-	for i := range currentGame.Grid {
-		currentGame.Grid[i] = make([]int, 7)
+		Grid:          g,
 	}
 
 	http.Redirect(w, r, "/game/play", http.StatusSeeOther)
 }
 
 func gamePlayHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		redirectToError(w, r, 405, "Méthode HTTP non autorisée.")
+	if !mustMethod(w, r, http.MethodGet) {
 		return
 	}
-
 	if currentGame == nil {
-		redirectToError(w, r, 400, "Aucune partie en cours. Veuillez en démarrer une nouvelle.")
+		redirectErr(w, r, 400, "Aucune partie en cours")
 		return
 	}
-
-	data := PageData{
-		Title:       "Power'4 Web — Partie en cours",
-		CurrentGame: currentGame,
-	}
-	renderTemplate(w, "game_play.html", data)
+	render(w, "game_play.html", PageData{Title: "Power'4 Web — Partie en cours", CurrentGame: currentGame})
 }
 
 func gamePlayTraitementHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		redirectToError(w, r, 405, "Méthode HTTP non autorisée.")
+	if !mustMethod(w, r, http.MethodPost) {
 		return
 	}
-
 	if currentGame == nil {
-		redirectToError(w, r, 400, "Aucune partie en cours.")
+		redirectErr(w, r, 400, "Aucune partie en cours")
 		return
 	}
 
-	colStr := strings.TrimSpace(r.FormValue("column"))
-	if colStr == "" {
-		redirectToError(w, r, 400, "Aucune colonne sélectionnée.")
-		return
-	}
-
-	col, err := strconv.Atoi(colStr)
+	col, err := strconv.Atoi(strings.TrimSpace(r.FormValue("column")))
 	if err != nil || col < 1 || col > 7 {
-		redirectToError(w, r, 400, "Colonne invalide.")
+		redirectErr(w, r, 400, "Colonne invalide")
 		return
 	}
-	col-- // 1-7 → 0-6
+	col--
 
 	placed := false
-	for row := len(currentGame.Grid) - 1; row >= 0; row-- {
+	for row := 5; row >= 0; row-- {
 		if currentGame.Grid[row][col] == 0 {
 			currentGame.Grid[row][col] = currentGame.CurrentPlayer
 			currentGame.Turns++
@@ -205,167 +193,59 @@ func gamePlayTraitementHandler(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
-
 	if !placed {
-		redirectToError(w, r, 400, "Cette colonne est déjà pleine.")
+		redirectErr(w, r, 400, "Colonne pleine")
 		return
 	}
 
+	// check win/draw
+	winner := ""
 	if checkWin(currentGame.Grid, currentGame.CurrentPlayer) {
-		winnerName := currentGame.Player1.Name
-		if currentGame.CurrentPlayer == 2 {
-			winnerName = currentGame.Player2.Name
+		if currentGame.CurrentPlayer == 1 {
+			winner = currentGame.Player1.Name
+		} else {
+			winner = currentGame.Player2.Name
 		}
-
-		result := GameResult{
-			Player1: currentGame.Player1.Name,
-			Player2: currentGame.Player2.Name,
-			Winner:  winnerName,
-			Date:    time.Now(),
-			Turns:   currentGame.Turns,
-		}
-		scoreboard = append(scoreboard, result)
-
-		http.Redirect(w, r, "/game/end", http.StatusSeeOther)
+		scoreboard = append(scoreboard, GameResult{Player1: currentGame.Player1.Name, Player2: currentGame.Player2.Name, Winner: winner, Date: time.Now(), Turns: currentGame.Turns})
+		http.Redirect(w, r, "/game/end", 303)
 		return
 	}
-
 	if boardFull(currentGame.Grid) {
-		result := GameResult{
-			Player1: currentGame.Player1.Name,
-			Player2: currentGame.Player2.Name,
-			Winner:  "",
-			Date:    time.Now(),
-			Turns:   currentGame.Turns,
-		}
-		scoreboard = append(scoreboard, result)
-
-		http.Redirect(w, r, "/game/end", http.StatusSeeOther)
+		scoreboard = append(scoreboard, GameResult{Player1: currentGame.Player1.Name, Player2: currentGame.Player2.Name, Winner: "", Date: time.Now(), Turns: currentGame.Turns})
+		http.Redirect(w, r, "/game/end", 303)
 		return
 	}
 
-	if currentGame.CurrentPlayer == 1 {
-		currentGame.CurrentPlayer = 2
-	} else {
-		currentGame.CurrentPlayer = 1
-	}
-
-	http.Redirect(w, r, "/game/play", http.StatusSeeOther)
+	currentGame.CurrentPlayer = 3 - currentGame.CurrentPlayer
+	http.Redirect(w, r, "/game/play", 303)
 }
 
 func gameEndHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		redirectToError(w, r, 405, "Méthode HTTP non autorisée.")
+	if !mustMethod(w, r, http.MethodGet) {
 		return
 	}
-
 	var last *GameResult
 	if len(scoreboard) > 0 {
 		last = &scoreboard[len(scoreboard)-1]
 	}
-
-	data := PageData{
-		Title:      "Power'4 Web — Fin de partie",
-		LastResult: last,
-	}
-	renderTemplate(w, "game_end.html", data)
+	render(w, "game_end.html", PageData{Title: "Power'4 Web — Fin de partie", LastResult: last})
 }
 
 func scoreboardHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		redirectToError(w, r, 405, "Méthode HTTP non autorisée.")
+	if !mustMethod(w, r, http.MethodGet) {
 		return
 	}
-
-	data := PageData{
-		Title:      "Power'4 Web — Scoreboard",
-		Scoreboard: scoreboard,
-	}
-	renderTemplate(w, "scoreboard.html", data)
+	render(w, "scoreboard.html", PageData{Title: "Power'4 Web — Scoreboard", Scoreboard: scoreboard})
 }
 
 func errorHandler(w http.ResponseWriter, r *http.Request) {
-	codeStr := strings.TrimSpace(r.FormValue("code"))
-	msg := strings.TrimSpace(r.FormValue("msg"))
-
-	code, err := strconv.Atoi(codeStr)
-	if err != nil {
-		code = 0
-	}
-
-	data := PageData{
-		Title:        "Power'4 Web — Erreur",
-		ErrorCode:    code,
-		ErrorMessage: msg,
-	}
-	renderTemplate(w, "error.html", data)
+	code, _ := strconv.Atoi(r.FormValue("code"))
+	render(w, "error.html", PageData{Title: "Power'4 Web — Erreur", ErrorCode: code, ErrorMessage: r.FormValue("msg")})
 }
 
-func boardFull(grid [][]int) bool {
-	for col := 0; col < 7; col++ {
-		if grid[0][col] == 0 {
-			return false
-		}
-	}
-	return true
-}
-
-func checkWin(grid [][]int, player int) bool {
-	rows := len(grid)
-	cols := len(grid[0])
-
-	for r := 0; r < rows; r++ {
-		for c := 0; c <= cols-4; c++ {
-			if grid[r][c] == player &&
-				grid[r][c+1] == player &&
-				grid[r][c+2] == player &&
-				grid[r][c+3] == player {
-				return true
-			}
-		}
-	}
-
-	for c := 0; c < cols; c++ {
-		for r := 0; r <= rows-4; r++ {
-			if grid[r][c] == player &&
-				grid[r+1][c] == player &&
-				grid[r+2][c] == player &&
-				grid[r+3][c] == player {
-				return true
-			}
-		}
-	}
-
-	for r := 0; r <= rows-4; r++ {
-		for c := 0; c <= cols-4; c++ {
-			if grid[r][c] == player &&
-				grid[r+1][c+1] == player &&
-				grid[r+2][c+2] == player &&
-				grid[r+3][c+3] == player {
-				return true
-			}
-		}
-	}
-
-	for r := 3; r < rows; r++ {
-		for c := 0; c <= cols-4; c++ {
-			if grid[r][c] == player &&
-				grid[r-1][c+1] == player &&
-				grid[r-2][c+2] == player &&
-				grid[r-3][c+3] == player {
-				return true
-			}
-		}
-	}
-
-	return false
-}
-
+/* ---------- main ---------- */
 func main() {
-
-	fs := http.FileServer(http.Dir("assets"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("assets"))))
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/game/init", gameInitHandler)
 	http.HandleFunc("/game/init/traitement", gameInitTraitementHandler)
@@ -376,8 +256,5 @@ func main() {
 	http.HandleFunc("/error", errorHandler)
 
 	log.Println("Serveur démarré sur http://localhost:8080")
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
