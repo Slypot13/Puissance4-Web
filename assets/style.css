@@ -1,408 +1,144 @@
+/* Réinitialisation de base */
 * {
-
   margin: 0;
-
   padding: 0;
-
-  box-sizing: border-box;
-
 }
- 
+
+/* Corps de page */
 body {
-
   font-family: Arial, sans-serif;
-
   background-color: #f4f4f4;
-
   color: #222;
-
 }
- 
+
+/* En-tête */
 header {
-
   background-color: #264653;
-
   color: #fff;
-
-  padding: 10px 16px;
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-}
- 
-header h1 {
-
-  font-size: 1.2rem;
-
-}
- 
-header nav a {
-
-  color: #f1faee;
-
-  text-decoration: none;
-
-  margin-left: 10px;
-
-  font-size: 0.9rem;
-
-}
- 
-header nav a:hover {
-
-  text-decoration: underline;
-
-}
- 
-main {
-
-  max-width: 800px;
-
-  margin: 20px auto;
-
-  padding: 0 10px 20px;
-
-}
- 
-.page-card {
-
-  background-color: #ffffff;
-
-  border: 1px solid #ccc;
-
-  border-radius: 6px;
-
-  padding: 15px;
-
-}
- 
-h2 {
-
-  margin-bottom: 10px;
-
-  font-size: 1.4rem;
-
-}
- 
-h3 {
-
-  margin-top: 15px;
-
-  margin-bottom: 5px;
-
-  font-size: 1.1rem;
-
-}
- 
-p {
-
-  margin-bottom: 8px;
-
-  line-height: 1.4;
-
-}
- 
-.muted {
-
-  color: #666;
-
-  font-size: 0.9rem;
-
-}
- 
-.btn-primary,
-
-.btn-secondary {
-
-  display: inline-block;
-
-  padding: 7px 14px;
-
-  font-size: 0.9rem;
-
-  border-radius: 4px;
-
-  text-decoration: none;
-
-  cursor: pointer;
-
-  border: 1px solid transparent;
-
-}
- 
-.btn-primary {
-
-  background-color: #2a9d8f;
-
-  color: #fff;
-
-  border-color: #21867b;
-
-}
- 
-.btn-primary:hover {
-
-  background-color: #21867b;
-
-}
- 
-.btn-secondary {
-
-  background-color: #e9ecef;
-
-  color: #222;
-
-  border-color: #ced4da;
-
-}
- 
-.btn-secondary:hover {
-
-  background-color: #dee2e6;
-
-}
- 
-.logo {
-
-  display: block;
-
-  margin: 0 auto 15px;
-
-  width: 120px;
-
-  height: auto;
-
-}
- 
- 
-form {
-
-  margin-top: 10px;
-
-}
- 
-fieldset {
-
-  border: 1px solid #ccc;
-
-  border-radius: 4px;
-
   padding: 10px;
-
-  margin-bottom: 10px;
-
 }
- 
-legend {
 
-  font-size: 0.9rem;
-
-  color: #444;
-
+header h1 {
+  font-size: 18px;
 }
- 
-label {
 
-  display: block;
-
-  margin-bottom: 4px;
-
-  font-size: 0.9rem;
-
+header nav a {
+  color: #f1faee;
+  text-decoration: none;
+  margin-left: 10px;
+  font-size: 14px;
 }
- 
-input[type="text"],
 
-input[type="number"],
-
-select {
-
-  width: 100%;
-
-  max-width: 220px;
-
-  padding: 5px 7px;
-
-  margin-bottom: 8px;
-
-  border-radius: 4px;
-
-  border: 1px solid #bbb;
-
-  font-size: 0.9rem;
-
+/* Contenu principal */
+main {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 10px;
 }
- 
-input[type="text"]:focus,
 
-input[type="number"]:focus,
-
-select:focus {
-
-  outline: none;
-
-  border-color: #2a9d8f;
-
-}
- 
- 
-.player-info {
-
-  margin: 8px 0;
-
-  font-size: 0.9rem;
-
-}
- 
-.current-player {
-
-  margin: 8px 0;
-
-  font-weight: bold;
-
-  font-size: 0.95rem;
-
-}
- 
- 
-.game-grid {
-
-  border-collapse: collapse;
-
-  margin: 12px 0;
-
-  background-color: #1d3557;
-
-}
- 
-.game-grid .cell {
-
-  width: 40px;
-
-  height: 40px;
-
-  text-align: center;
-
-  vertical-align: middle;
-
-  border: 1px solid #000;
-
-  border-radius: 50%;
-
-  font-weight: bold;
-
-  font-size: 1rem;
-
-  color: #000;
-
-}
- 
-/* 0 = vide, 1 = J1, 2 = J2 */
- 
-.cell-0 {
-
-  background-color: #f1f1f1;
-
-}
- 
-.cell-1 {
-
-  background-color: #e63946; 
-
-}
- 
-.cell-2 {
-
-  background-color: #ffbe0b;
-
-}
- 
- 
-.scoreboard-table {
-
-  width: 100%;
-
-  border-collapse: collapse;
-
-  margin-top: 10px;
-
-  font-size: 0.9rem;
-
-}
- 
-.scoreboard-table th,
-
-.scoreboard-table td {
-
+/* Cartes / boîtes */
+.page-card {
+  background-color: #fff;
   border: 1px solid #ccc;
-
-  padding: 6px 8px;
-
-  text-align: left;
-
+  padding: 10px;
 }
- 
-.scoreboard-table thead {
 
-  background-color: #e9ecef;
-
+/* Titres */
+h2 {
+  margin-bottom: 10px;
 }
- 
- 
-.status-message {
 
-  margin: 10px 0;
-
-  font-size: 1rem;
-
-}
- 
-.status-win {
-
-  color: #2a9d8f;
-
-}
- 
-.status-draw {
-
-  color: #444;
-
-}
- 
-.status-error {
-
-  color: #e63946;
-
-}
- 
-.error-code {
-
-  font-size: 0.85rem;
-
-  color: #666;
-
-  margin-bottom: 6px;
-
-}
- 
- 
-footer {
-
-  font-size: 0.8rem;
-
-  color: #777;
-
-  text-align: center;
-
-  padding: 8px;
-
-  border-top: 1px solid #ccc;
-
+h3 {
   margin-top: 10px;
-
+  margin-bottom: 5px;
 }
- 
+
+/* Paragraphes */
+p {
+  margin-bottom: 8px;
+}
+
+/* Boutons */
+.btn-primary, .btn-secondary {
+  padding: 5px 10px;
+  text-decoration: none;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #2a9d8f;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #e9ecef;
+  color: #222;
+}
+
+/* Formulaires */
+form {
+  margin-top: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+input, select {
+  width: 200px;
+  padding: 5px;
+  margin-bottom: 8px;
+  border: 1px solid #bbb;
+}
+
+/* Grille du jeu */
+.game-grid {
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.game-grid .cell {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #000;
+}
+
+/* Cellules du jeu */
+.cell-0 { background-color: #f1f1f1; }
+.cell-1 { background-color: #e63946; }
+.cell-2 { background-color: #ffbe0b; }
+
+/* Tableau des scores */
+.scoreboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.scoreboard-table th,
+.scoreboard-table td {
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+/* Messages */
+.status-message {
+  margin: 10px 0;
+}
+
+.status-win { color: #2a9d8f; }
+.status-draw { color: #444; }
+.status-error { color: #e63946; }
+
+/* Pied de page */
+footer {
+  font-size: 12px;
+  color: #777;
+  text-align: center;
+  padding: 8px;
+  border-top: 1px solid #ccc;
+  margin-top: 10px;
+}
