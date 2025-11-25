@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -16,15 +17,19 @@
   --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+
 body {
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  background: var(--bg-main);
+  background-image: url("/static/logo/image.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   color: var(--text-main);
   padding-bottom: 40px;
 }
 
 header {
-  background: #2743e6;
+  background: #ffffff;
   border-bottom: 1px solid var(--border-soft);
   padding: 12px 24px;
   display: flex;
@@ -35,12 +40,35 @@ header {
   z-index: 10;
 }
 
-header h1 {
+.header-left {
+  width: 33%;
+}
+
+.header-left h1 {
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-header nav a {
+.header-center {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+}
+
+.logo-header {
+  height: 42px;     
+  width: auto;
+  border-radius: 50%;
+}
+
+
+.header-right {
+  width: 33%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.header-right a {
   margin-left: 12px;
   font-size: 0.95rem;
   color: var(--text-muted);
@@ -50,7 +78,7 @@ header nav a {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-header nav a:hover {
+.header-right a:hover {
   background: #e5e7eb;
   color: var(--text-main);
 }
@@ -85,7 +113,8 @@ p {
   line-height: 1.55;
 }
 
-p.muted, .muted {
+p.muted,
+.muted {
   color: var(--text-muted);
 }
 
@@ -173,9 +202,17 @@ select:focus {
   color: #000;
 }
 
-.cell-0 { background: #f3f4f6; }
-.cell-1 { background: #ef4444; }
-.cell-2 { background: #facc15; }
+.cell-0 {
+  background: #f3f4f6;
+}
+
+.cell-1 {
+  background: #ef4444;
+}
+
+.cell-2 {
+  background: #facc15;
+}
 
 .scoreboard-table {
   width: 100%;
@@ -191,14 +228,23 @@ select:focus {
   text-align: left;
 }
 
+
 .status-message {
   font-size: 1rem;
   margin: 12px 0;
 }
 
-.status-win { color: #15803d; }
-.status-draw { color: #6b7280; }
-.status-error { color: #b91c1c; }
+.status-win {
+  color: #15803d;
+}
+
+.status-draw {
+  color: #6b7280;
+}
+
+.status-error {
+  color: #b91c1c;
+}
 
 footer {
   padding: 10px 16px;

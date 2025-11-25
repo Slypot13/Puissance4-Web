@@ -8,18 +8,25 @@
 <body>
 
 <header>
-    <h1>Power'4 Web</h1>
-    <nav>
+
+    <div class="header-left">
+        <h1>Power'4 Web</h1>
+    </div>
+
+    <div class="header-center">
+        <img src="/static/logo/logo2.png" alt="Logo du site" class="logo-header">
+    </div>
+
+    <nav class="header-right">
         <a href="/">Accueil</a>
         <a href="/game/init">Nouvelle partie</a>
         <a href="/game/scoreboard">Scoreboard</a>
     </nav>
+
 </header>
 
 <main>
     <div class="page-card">
-
-        <img src="/assets/logo/7230225-thylane-et-ayrton-blondeau-les-deux-enf-950x0-1.jpg" alt="Logo du site" class="logo">
 
         <div class="home-intro">
             <h2>Bienvenue sur Power'4 Web 🎮</h2>
@@ -30,9 +37,7 @@
         </div>
 
         <h3>Objectifs du projet</h3>
-        <p class="muted">
-            Ce projet a pour but de mettre en pratique :
-        </p>
+        <p class="muted">Ce projet a pour but de mettre en pratique :</p>
         <ul class="muted" style="margin-left: 18px; margin-bottom: 10px;">
             <li>la gestion de routes web claires (/game/init, /game/play, /game/end…)</li>
             <li>la séparation affichage / traitement des formulaires</li>
