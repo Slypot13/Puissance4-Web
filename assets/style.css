@@ -9,7 +9,7 @@
   --bg-card: #ffffff;
   --border-soft: #d1d5db;
   --text-main: #111827;
-  --text-muted: #6b7280;
+  --text-muted: #000000;
   --accent: #2563eb;
   --accent-soft: #1e40af;
   --radius-lg: 12px;
@@ -24,7 +24,7 @@ body {
 }
 
 header {
-  background: #ffffff;
+  background: #2743e6;
   border-bottom: 1px solid var(--border-soft);
   padding: 12px 24px;
   display: flex;
