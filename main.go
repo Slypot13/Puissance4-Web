@@ -47,7 +47,6 @@ var (
 
 var nameRegex = regexp.MustCompile(`^[A-Za-z0-9_-]{3,20}$`)
 
-/* ---------- helpers ---------- */
 func render(w http.ResponseWriter, tpl string, data PageData) {
 	if err := templates.ExecuteTemplate(w, tpl, data); err != nil {
 		log.Println("template error:", err)
@@ -105,7 +104,6 @@ func checkWin(grid [][]int, p int) bool {
 	return false
 }
 
-/* ---------- handlers ---------- */
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		redirectErr(w, r, 404, "Page introuvable")
@@ -198,7 +196,6 @@ func gamePlayTraitementHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check win/draw
 	winner := ""
 	if checkWin(currentGame.Grid, currentGame.CurrentPlayer) {
 		if currentGame.CurrentPlayer == 1 {
@@ -243,7 +240,6 @@ func errorHandler(w http.ResponseWriter, r *http.Request) {
 	render(w, "error.html", PageData{Title: "Power'4 Web — Erreur", ErrorCode: code, ErrorMessage: r.FormValue("msg")})
 }
 
-/* ---------- main ---------- */
 func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("assets"))))
 	http.HandleFunc("/", homeHandler)
